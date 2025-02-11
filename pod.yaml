@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: homework-pod
+  namespace: homework
+spec:
+  initContainers:
+    - name: init-container
+      image: busybox
+      command: ['sh', '-c', 'wget -O /init/index.html https://google.com/index.html']
+      #command: ['sh', '-c', 'echo "<html><body><h1>Homework Page</h1></body></html>" > /init/index.html']
+      volumeMounts:
+        - mountPath: /init
+          name: shared-volume
+  containers:
+    - name: web-server
+      image: nginx:latest
+      ports:
+        - containerPort: 8000
+      volumeMounts:
+        - mountPath: /homework
+          name: shared-volume
+      lifecycle:
+        postStart:
+          exec:
+            command: ['rm', '/homework/index.html']
+  volumes:
+    - name: shared-volume
+      emptyDir: {}
