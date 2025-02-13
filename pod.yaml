@@ -3,6 +3,8 @@ kind: Pod
 metadata:
   name: homework-pod
   namespace: homework
+  labels:
+    app: homework-app
 spec:
   initContainers:
     - name: init-container
