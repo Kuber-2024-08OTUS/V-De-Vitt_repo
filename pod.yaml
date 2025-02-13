@@ -3,6 +3,8 @@ kind: Pod
 metadata:
   name: homework-pod
   namespace: homework
+  labels:
+    app: homework-app
 spec:
   initContainers:
     - name: init-container
@@ -16,7 +18,7 @@ spec:
     - name: web-server
       image: nginx:latest
       ports:
-        - containerPort: 8000
+        - containerPort: 80
       volumeMounts:
         - mountPath: /homework
           name: shared-volume
