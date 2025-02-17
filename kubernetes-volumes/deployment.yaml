@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+  namespace: homework
+data:
+  default.conf: |
+    server {
+        listen       8000;
+        server_name  localhost;
+
+        location /conf/file/ {
+            alias /homework/conf/;
+            autoindex on;
+        }
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+    }
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homework-deployment
+  namespace: homework
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: homework-pod
+  template:
+    metadata:
+      labels:
+        app: homework-pod
+    spec:
+      nodeSelector:
+        homework: "true"
+      initContainers:
+        - name: init-container
+          image: busybox
+          command: ['sh', '-c', 'wget -O /usr/share/nginx/html/index.html https://google.com/index.html']
+          #command: ['sh', '-c', 'echo "<html><body><h1>Homework Page</h1></body></html>" > /usr/share/nginx/html/index.html']
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html/
+              name: homework-pvc
+      containers:
+        - name: web-server
+          image: nginx:latest
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html/
+              name: homework-pvc
+            - mountPath: /etc/nginx/conf.d
+              name: nginx-config
+#              readOnly: false
+            - mountPath: /homework/conf
+              name: homework-configmap
+          lifecycle:
+            preStop:
+              exec:
+                command: ['rm', '/usr/share/nginx/html/index.html']
+          readinessProbe:
+            httpGet:
+              path: /index.html
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: homework-pvc
+          persistentVolumeClaim:
+            claimName: homework-pvc
+        - name: nginx-config
+          configMap:
+            name: nginx-conf
+        - name: homework-configmap
+          configMap:
+            name: homework-configmap
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
