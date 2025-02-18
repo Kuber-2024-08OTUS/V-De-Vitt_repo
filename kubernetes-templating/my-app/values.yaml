@@ -1,0 +1,21 @@
+app:
+  name: my-app
+  imageRepository: nginx
+  imageTag: latest
+  replicas: 3
+  port: 8000
+
+ingress:
+  enabled: true
+  host: homework.otus
+
+pvc:
+  size: 1Gi
+
+dependencies:
+  mysql:
+    enabled: true
+    nameOverride: my-mysql
+    auth:
+      username: admin
+      password: secret
