@@ -1,0 +1,1 @@
+Application is deployed at http://{{ print .Values.ingress.host | quote }}.

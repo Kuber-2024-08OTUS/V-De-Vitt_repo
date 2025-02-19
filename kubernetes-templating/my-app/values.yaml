@@ -1,0 +1,22 @@
+app:
+  name: my-app
+  imageRepository: nginx
+  imageTag: latest
+  replicas: 3
+  port: 8000
+
+ingress:
+  enabled: true
+  host: homework-helm.otus
+
+pvc:
+  name: "homework-pvc-new"
+  size: 1Gi
+
+dependencies:
+  mysql:
+    enabled: true
+    nameOverride: my-mysql
+    auth:
+      username: admin
+      password: secret

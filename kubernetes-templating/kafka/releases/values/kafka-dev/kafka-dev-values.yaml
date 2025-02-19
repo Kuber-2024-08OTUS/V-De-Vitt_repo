@@ -1,0 +1,6 @@
+broker:
+  replicaCount: 1
+authentication:
+  method: none
+listeners:
+  type: PLAINTEXT
