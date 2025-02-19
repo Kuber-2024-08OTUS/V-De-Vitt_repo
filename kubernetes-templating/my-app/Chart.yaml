@@ -3,5 +3,6 @@ version: 0.1.0
 description: Deployment chart for My Application with MySQL.
 dependencies:
   - name: mysql
-    version: ~8.7.32
-    repository: https://charts.bitnami.com/bitnami
+    repository: "oci://registry-1.docker.io/bitnamicharts"
+    version: "12.2.2"
+    #repository: https://charts.bitnami.com/bitnami

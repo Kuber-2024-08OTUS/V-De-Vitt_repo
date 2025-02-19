@@ -7,9 +7,10 @@ app:
 
 ingress:
   enabled: true
-  host: homework.otus
+  host: homework-helm.otus
 
 pvc:
+  name: "homework-pvc-new"
   size: 1Gi
 
 dependencies:

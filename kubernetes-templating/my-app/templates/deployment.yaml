@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-conf
+  name: nginx-conf-1
   namespace: homework
 data:
   default.conf: |
@@ -77,7 +77,7 @@ spec:
             claimName: homework-pvc
         - name: nginx-config
           configMap:
-            name: nginx-conf
+            name: nginx-conf-1
         - name: homework-configmap
           configMap:
             name: homework-configmap
