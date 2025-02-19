@@ -9,15 +9,11 @@ releases:
     namespace: prod
     createNamespace: true
     values:
-      - "./values/kafka-prod-values.yaml"
-#  - name: kafka-dev
-#    chart: bitnami/kafka
-#    namespace: dev
-#    createNamespace: true
-#    values:
-#      replicaCount: 1
-#      replicas: "1"
-#      authentication:
-#        method: none
-#      listeners:
-#        type: PLAINTEXT
+      - "./releases/values/kafka-prod/kafka-prod-values.yaml"
+  - name: kafka-dev
+    chart: oci://registry-1.docker.io/bitnamicharts/kafka
+    version: "31.3.1"
+    namespace: dev
+    createNamespace: true
+    values:
+      - "./releases/values/kafka-dev/kafka-dev-values.yaml"

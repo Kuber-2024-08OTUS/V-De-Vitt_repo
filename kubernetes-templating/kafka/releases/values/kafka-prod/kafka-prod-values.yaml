@@ -1,10 +1,10 @@
 broker:
   replicaCount: 5
-  kafka:
-    version: 3.5.2
-  authentication:
-    method: saslPlain
-  sasl:
-    enabled: true
-  listeners:
-    type: SASL_PLAINTEXT
+kafka:
+  version: 3.5.2
+authentication:
+  method: saslPlain
+sasl:
+  enabled: true
+listeners:
+  type: SASL_PLAINTEXT
