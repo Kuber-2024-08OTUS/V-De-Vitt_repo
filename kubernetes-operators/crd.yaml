@@ -1,0 +1,51 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: mysqls.otus.homework
+spec:
+  group: otus.homework
+  names:
+    kind: MySQL
+    plural: mysqls
+#    shortNames: mysql
+  scope: Namespaced
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                image:
+                  type: string
+                  description: Docker образ для создания MySQL
+                  x-kubernetes-validations:
+                    - rule: "self != ''"
+                      message: "Image must be specified."
+                database:
+                  type: string
+                  description: Имя базы данных
+                  x-kubernetes-validations:
+                    - rule: "size(self) >= 1"
+                      message: "Database name must not be empty."
+                password:
+                  type: string
+                  description: Пароль от БД
+                  x-kubernetes-validations:
+                    - rule: "size(self) >= 8"
+                      message: "Password must be at least 8 characters long."
+                storage_size:
+                  type: string
+                  description: Размер хранилища под базу
+                  x-kubernetes-validations:
+                    - rule: "self.matches('^[0-9]+[GM]iB$')"  #^\\d+[GM]iB$`
+                      message: "Storage size must be in the format of digits followed by GiB or MiB (e.g., 10GiB)."
+              required:
+                - image
+                - database
+                - password
+                - storage_size

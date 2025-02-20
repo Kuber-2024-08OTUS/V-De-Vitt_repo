@@ -1,0 +1,11 @@
+apiVersion: otus.homework/v1
+kind: MySQL
+metadata:
+  name: example-mysql
+  labels:
+    app: mysql-operator
+spec:
+  image: mysql:5.7
+  database: mydb
+  password: securepassword123
+  storage_size: "15GiB"
