@@ -1,0 +1,42 @@
+kubectl debug -it nginx-distroless --target=nginx --share-processes=true --image=ubuntu --profile=sysadmin -- /bin/bash
+
+ps aux
+ls -la /proc/1/root/etc/nginx
+
+root@nginx-distroless:/# ls -la /proc/1/root/etc/nginx
+total 48
+drwxr-xr-x 3 root root 4096 Oct  5  2020 .
+drwxr-xr-x 1 root root 4096 Feb 21 21:31 ..
+drwxr-xr-x 2 root root 4096 Oct  5  2020 conf.d
+-rw-r--r-- 1 root root 1007 Apr 21  2020 fastcgi_params
+-rw-r--r-- 1 root root 2837 Apr 21  2020 koi-utf
+-rw-r--r-- 1 root root 2223 Apr 21  2020 koi-win
+-rw-r--r-- 1 root root 5231 Apr 21  2020 mime.types
+lrwxrwxrwx 1 root root   22 Apr 21  2020 modules -> /usr/lib/nginx/modules
+-rw-r--r-- 1 root root  643 Apr 21  2020 nginx.conf
+-rw-r--r-- 1 root root  636 Apr 21  2020 scgi_params
+-rw-r--r-- 1 root root  664 Apr 21  2020 uwsgi_params
+-rw-r--r-- 1 root root 3610 Apr 21  2020 win-utf
+
+root@nginx-distroless:/# tcpdump -nn -i any -e port 80
+tcpdump: data link type LINUX_SLL2
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on any, link-type LINUX_SLL2 (Linux cooked v2), snapshot length 262144 bytes
+21:52:15.631894 eth0  In  ifindex 2 22:55:70:a0:e2:5c ethertype IPv4 (0x0800), length 80: 10.244.0.1.49068 > 10.244.0.3.80: Flags [S], seq 1779565941, win 64240, options [mss 1460,sackOK,TS val 1605947817 ecr 0,nop,wscale 7], length 0
+21:52:15.631915 eth0  Out ifindex 2 4e:2b:94:1b:93:f7 ethertype IPv4 (0x0800), length 80: 10.244.0.3.80 > 10.244.0.1.49068: Flags [S.], seq 1550519309, ack 1779565942, win 65160, options [mss 1460,sackOK,TS val 2393834684 ecr 1605947817,nop,wscale 7], length 0
+21:52:15.631932 eth0  In  ifindex 2 22:55:70:a0:e2:5c ethertype IPv4 (0x0800), length 72: 10.244.0.1.49068 > 10.244.0.3.80: Flags [.], ack 1, win 502, options [nop,nop,TS val 1605947817 ecr 2393834684], length 0
+21:52:15.632118 eth0  In  ifindex 2 22:55:70:a0:e2:5c ethertype IPv4 (0x0800), length 146: 10.244.0.1.49068 > 10.244.0.3.80: Flags [P.], seq 1:75, ack 1, win 502, options [nop,nop,TS val 1605947817 ecr 2393834684], length 74: HTTP: GET / HTTP/1.1
+21:52:15.632125 eth0  Out ifindex 2 4e:2b:94:1b:93:f7 ethertype IPv4 (0x0800), length 72: 10.244.0.3.80 > 10.244.0.1.49068: Flags [.], ack 75, win 509, options [nop,nop,TS val 2393834684 ecr 1605947817], length 0
+21:52:15.632294 eth0  Out ifindex 2 4e:2b:94:1b:93:f7 ethertype IPv4 (0x0800), length 310: 10.244.0.3.80 > 10.244.0.1.49068: Flags [P.], seq 1:239, ack 75, win 509, options [nop,nop,TS val 2393834684 ecr 1605947817], length 238: HTTP: HTTP/1.1 200 OK
+21:52:15.632314 eth0  In  ifindex 2 22:55:70:a0:e2:5c ethertype IPv4 (0x0800), length 72: 10.244.0.1.49068 > 10.244.0.3.80: Flags [.], ack 239, win 501, options [nop,nop,TS val 1605947817 ecr 2393834684], length 0
+21:52:15.632374 eth0  Out ifindex 2 4e:2b:94:1b:93:f7 ethertype IPv4 (0x0800), length 684: 10.244.0.3.80 > 10.244.0.1.49068: Flags [P.], seq 239:851, ack 75, win 509, options [nop,nop,TS val 2393834685 ecr 1605947817], length 612: HTTP
+21:52:15.632396 eth0  In  ifindex 2 22:55:70:a0:e2:5c ethertype IPv4 (0x0800), length 72: 10.244.0.1.49068 > 10.244.0.3.80: Flags [.], ack 851, win 497, options [nop,nop,TS val 1605947818 ecr 2393834685], length 0
+21:52:15.632603 eth0  In  ifindex 2 22:55:70:a0:e2:5c ethertype IPv4 (0x0800), length 72: 10.244.0.1.49068 > 10.244.0.3.80: Flags [F.], seq 75, ack 851, win 497, options [nop,nop,TS val 1605947818 ecr 2393834685], length 0
+21:52:15.633032 eth0  Out ifindex 2 4e:2b:94:1b:93:f7 ethertype IPv4 (0x0800), length 72: 10.244.0.3.80 > 10.244.0.1.49068: Flags [F.], seq 851, ack 76, win 509, options [nop,nop,TS val 2393834685 ecr 1605947818], length 0
+21:52:15.633053 eth0  In  ifindex 2 22:55:70:a0:e2:5c ethertype IPv4 (0x0800), length 72: 10.244.0.1.49068 > 10.244.0.3.80: Flags [.], ack 852, win 497, options [nop,nop,TS val 1605947818 ecr 2393834685], length 0
+
+kubectl debug node/minikube -it --target=nginx --share-processes=true --image=ubuntu --profile=sysadmin -- /bin/bash
+chroot host
+cat /proc/1/root/var/log/pods/default_nginx-distroless_e9ea1fc9-0474-45c3-9795-5307df4517bb/nginx/0.log
+
+{"log":"10.244.0.1 - - [22/Feb/2025:05:52:15 +0800] \"GET / HTTP/1.1\" 200 612 \"-\" \"curl/7.81.0\" \"-\"\n","stream":"stdout","time":"2025-02-21T21:52:15.632621325Z"}
