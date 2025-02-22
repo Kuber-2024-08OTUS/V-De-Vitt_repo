@@ -1,0 +1,15 @@
+# after install
+admin_local@mnode1:~$ kubectl get nodes -o wide
+NAME     STATUS   ROLES           AGE     VERSION    INTERNAL-IP      EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
+mnode1   Ready    control-plane   4m37s   v1.30.10   192.168.21.132   <none>        Ubuntu 24.04.2 LTS   6.8.0-53-generic   containerd://1.7.24
+wnode1   Ready    <none>          39s     v1.30.10   192.168.21.135   <none>        Ubuntu 24.04.2 LTS   6.8.0-53-generic   containerd://1.7.24
+wnode2   Ready    <none>          33s     v1.30.10   192.168.21.134   <none>        Ubuntu 24.04.2 LTS   6.8.0-53-generic   containerd://1.7.24
+wnode3   Ready    <none>          30s     v1.30.10   192.168.21.133   <none>        Ubuntu 24.04.2 LTS   6.8.0-53-generic   containerd://1.7.24
+
+# after upgrade
+admin_local@mnode1:~$ kubectl get nodes -o wide
+NAME     STATUS   ROLES           AGE   VERSION   INTERNAL-IP      EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
+mnode1   Ready    control-plane   13m   v1.31.6   192.168.21.132   <none>        Ubuntu 24.04.2 LTS   6.8.0-53-generic   containerd://1.7.24
+wnode1   Ready    <none>          12m   v1.31.6   192.168.21.135   <none>        Ubuntu 24.04.2 LTS   6.8.0-53-generic   containerd://1.7.24
+wnode2   Ready    <none>          12m   v1.31.6   192.168.21.134   <none>        Ubuntu 24.04.2 LTS   6.8.0-53-generic   containerd://1.7.24
+wnode3   Ready    <none>          12m   v1.31.6   192.168.21.133   <none>        Ubuntu 24.04.2 LTS   6.8.0-53-generic   containerd://1.7.24
