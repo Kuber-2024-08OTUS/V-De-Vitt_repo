@@ -1,0 +1,6 @@
+nodeSelector:
+  "node-role.kubernetes.io/infra": ""
+tolerations:
+  - key: "node-role"
+    value: "infra"
+    effect: "NoSchedule"
