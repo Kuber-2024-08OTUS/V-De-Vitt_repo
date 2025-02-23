@@ -1,0 +1,27 @@
+# app2.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubernetes-templating
+  namespace: argocd
+spec:
+  project: otus
+  source:
+    repoURL: https://github.com/Kuber-2024-08OTUS/V-De-Vitt_repo.git
+    path: kubernetes-templating
+    kustomize:
+      replicas:
+        - name: kustom-kubernetes-templating
+          count: 3
+  destination:
+    server: https://130.193.35.251
+    #name: my-cluster10
+    namespace: homeworkhelm
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyEvents
+  #nodeSelector:
+    #node-role: worker
