@@ -1,0 +1,8 @@
+server:
+  enabled: true
+  replicas: 3
+  service:
+    type: ClusterIP
+client:
+  enabled: true
+  replicas: 1

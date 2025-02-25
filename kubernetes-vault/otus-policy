@@ -1,0 +1,5 @@
+kubectl exec -it <имя-пода-vault> -n vault -- vault policy write otus-policy - <<EOF
+path "secret/otus/*" {
+  capabilities = ["read", "list"]
+}
+EOF
