@@ -1,0 +1,31 @@
+#consul:
+#  enabled: true
+#  serverConnectionURLs: ["http://consul-server.consul.svc.cluster.local:8500"]
+
+global:
+  name: "vault"
+  enabled: true
+  namespace: "vault"
+
+server:
+  replicaCount: 3
+  ha:
+    enabled: true
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+
+  config:
+    api_addr: "https://{{ .Release.Name }}-server:8200"
+    cluster_addr: "https://{{ .Release.Name }}-server:8201"
+    listener.tcp:
+      address: "0.0.0.0:8200"
+      tls_disable: false
+      tls_cert_file: "/vault/tls/server.crt"
+      tls_key_file: "/vault/tls/server.key"
+
+  storage:
+    consul:
+      address: "http://consul-consul-server:8501"
+      token: "root" # Замените на ваш токен Consul
