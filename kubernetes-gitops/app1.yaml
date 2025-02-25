@@ -1,0 +1,17 @@
+# app1.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubernetes-networks
+  namespace: argocd
+spec:
+  project: otus
+  source:
+    repoURL: https://github.com/Kuber-2024-08OTUS/V-De-Vitt_repo.git
+    path: kubernetes-networks
+  destination:
+    server: https://130.193.35.251
+    #name: my-cluster10
+    namespace: homework
+  #nodeSelector:
+    #node-role: worker

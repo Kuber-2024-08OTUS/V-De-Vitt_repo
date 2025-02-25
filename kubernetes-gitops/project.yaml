@@ -1,0 +1,11 @@
+# project.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: otus
+spec:
+  sourceRepos:
+    - "https://github.com/Kuber-2024-08OTUS/V-De-Vitt_repo.git"
+  destinations:
+    - server: https://kubernetes.default.svc.cluster.local
+      namespace: argocd
