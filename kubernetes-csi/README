@@ -1,0 +1,4 @@
+#установка CSI драйвера
+git clone https://github.com/yandex-cloud/k8s-csi-s3.git
+cd k8s-csi-s3/deploy/kubernetes/
+kubectl apply -f .
